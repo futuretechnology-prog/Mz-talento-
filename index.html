@@ -1,1 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MZ Talento — MVP</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{
+  --azul:#0B5A8A; --azul-esc:#08466B; --laranja:#E88A1A;
+  --fundo:#F4F7FA; --card:#fff; --texto:#222; --cinza:#6B7280;
+  --verde:#1E8E4E; --amarelo:#F5B301; --verm:#C0392B;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,Arial,sans-serif}
+body{background:#DDE5EC;display:flex;justify-content:center;min-height:100vh;padding:14px}
+.phone{width:100%;max-width:400px;background:var(--fundo);border-radius:26px;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);overflow:hidden;position:relative;min-height:760px;
+  display:flex;flex-direction:column}
+.topo{background:var(--azul);color:#fff;padding:16px 18px 20px;border-bottom-left-radius:18px;border-bottom-right-radius:18px}
+.topo h1{font-size:20px}
+.topo .slogan{font-size:11.5px;font-style:italic;opacity:.85}
+.busca{margin-top:12px;background:#fff;border-radius:12px;display:flex;align-items:center;padding:9px 12px;gap:8px}
+.busca input{border:none;outline:none;flex:1;font-size:13.5px}
+.busca button{background:var(--laranja);border:none;color:#fff;border-radius:8px;padding:7px 13px;font-weight:600;font-size:12.5px;cursor:pointer}
+.local{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:12px;opacity:.95}
+.local select{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:3px 7px;font-size:12px;outline:none}
+.local select option{color:#222}
+.conteudo{flex:1;overflow-y:auto;padding:14px 13px 92px}
+.titulo-sec{font-size:13.5px;font-weight:700;color:var(--azul);margin:4px 0 9px}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cat{background:var(--card);border-radius:13px;padding:10px 4px;text-align:center;cursor:pointer;
+  border:2px solid transparent;transition:.15s;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.cat:hover{border-color:var(--laranja)}
+.cat .ic{font-size:21px}.cat .nm{font-size:10px;font-weight:600;margin-top:3px}
+.prof{background:var(--card);border-radius:15px;padding:12px;display:flex;gap:11px;margin-bottom:10px;
+  box-shadow:0 1px 5px rgba(0,0,0,.07);align-items:center}
+.foto{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;color:#fff;font-weight:700}
+.info{flex:1;min-width:0}
+.nome{font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:5px}
+.check{background:var(--verde);color:#fff;border-radius:50%;width:14px;height:14px;font-size:9px;
+  display:inline-flex;align-items:center;justify-content:center}
+.serv{font-size:11.5px;color:var(--azul);font-weight:600;margin-top:1px}
+.meta{font-size:11px;color:var(--cinza);margin-top:3px}
+.estrelas{color:var(--amarelo);font-size:11.5px}
+.btn{background:var(--verde);color:#fff;border:none;border-radius:9px;padding:8px 12px;
+  font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.laranja{background:var(--laranja)}
+.btn.cinza{background:#9AA6B2}
+.btn.verm{background:var(--verm)}
+.form-linha{margin-bottom:11px}
+.form-linha label{display:block;font-size:12px;font-weight:600;color:var(--azul);margin-bottom:4px}
+.form-linha input,.form-linha select,.form-linha textarea{width:100%;border:1.5px solid #D5DEE7;
+  border-radius:10px;padding:9px 11px;font-size:13px;outline:none;background:#fff}
+.form-card{background:var(--card);border-radius:16px;padding:15px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.alerta{border-radius:11px;padding:10px 12px;font-size:12px;margin-bottom:11px}
+.alerta.ok{background:#E7F6ED;color:#14532D;border:1px solid #B7E0C6}
+.alerta.erro{background:#FBEAEA;color:#7F1D1D;border:1px solid #F0C4C4}
+.alerta.info{background:#EAF2F8;color:var(--azul-esc);border:1px solid #BCD7EA}
+.rodape-nav{position:absolute;bottom:0;left:0;right:0;background:#fff;display:flex;
+  justify-content:space-around;padding:9px 0 13px;box-shadow:0 -3px 12px rgba(0,0,0,.08)}
+.nav-i{font-size:10px;color:var(--cinza);text-align:center;cursor:pointer;flex:1}
+.nav-i .ic{font-size:19px;display:block}
+.nav-i.sel{color:var(--azul);font-weight:700}
+</style>
+</head>
+<body>
+<div class="phone">
 
+  <!-- ECRÃ 1: INÍCIO -->
+  <section id="v-inicio" style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div class="topo">
+      <h1>MZ TALENTO</h1>
+      <div class="slogan">“O teu talento pode ser o teu trabalho.”</div>
+      <div class="busca">
+        <span><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input id="fBusca" placeholder="O que procuras? Ex.: tranças, bolo, costura">
+        <button onclick="pesquisar()">Buscar</button>
+      </div>
+      <div class="local"><i class="fa-solid fa-location-dot"></i>
+          <select id="fZona" onchange="renderInicio()">
+            <option value="">Todos os bairros da Matola</option>
+          </select>
+      </div>
+    </div>
+    <div class="conteudo">
+      <div class="titulo-sec">Categorias</div>
+      <div class="cats" id="gCats"></div>
+      <div class="titulo-sec" style="margin-top:16px">Profissionais perto de ti</div>
+      <div id="gProfs"></div>
+    </div>
+  </section>
+
+  <!-- ECRÃ 2: CRIAR PERFIL -->
+  <section id="v-criar" style="display:none;flex-direction:column;flex:1;min-height:0">
+    <div class="topo">
+      <h1 style="font-size:16px"><i class="fa-solid fa-circle-plus"></i> Criar o meu perfil</h1>
+      <div class="slogan">Mostra o teu talento e recebe clientes</div>
+    </div>
+    <div class="conteudo">
+      <div id="msgCriar"></div>
+      <div class="form-card">
+        <div class="form-linha"><label>Nome ou Marca *</label>
+          <input id="cNome" placeholder="Ex.: Maria Tranças"></div>
+        <div class="form-linha"><label>Serviço / Talento *</label>
+          <input id="cServ" placeholder="Ex.: Tranças clássicas e knotless"></div>
+        <div class="form-linha"><label>Preço ou Faixa de preços</label>
+          <input id="cPreco" placeholder="Ex.: 300–700 MT"></div>
+        <div class="form-linha"><label>Bairro na Matola *</label>
+          <select id="cZona"></select></div>
+        <div class="form-linha"><label>Número de telefone (9 dígitos) *</label>
+          <input id="cTel" maxlength="9" placeholder="Ex.: 841234567"></div>
+        <button class="btn" style="width:100%;margin-top:6px" onclick="criarPerfil()"><i class="fa-solid fa-check"></i> Publicar Perfil</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVEGAÇÃO INFERIOR -->
+  <nav class="rodape-nav">
+    <div class="nav-i sel" id="n-inicio" onclick="ir('inicio')"><span class="ic"><i class="fa-solid fa-house"></i></span>Início</div>
+    <div class="nav-i" id="n-criar" onclick="ir('criar')"><span class="ic"><i class="fa-solid fa-circle-plus"></i></span>Criar perfil</div>
+  </nav>
+
+</div>
+
+<script>
+// CATEGORIAS E DISTRITOS DA MATOLA
+const CATEGORIAS = [
+  {ic:'fa-scissors', nm:'Beleza', chave:'beleza'},
+  {ic:'fa-cake-candles', nm:'Alimentação', chave:'alimentacao'},
+  {ic:'fa-palette', nm:'Arte', chave:'arte'},
+  {ic:'fa-laptop-code', nm:'Tecnologia', chave:'tecnologia'},
+  {ic:'fa-book-open', nm:'Educação', chave:'educacao'},
+  {ic:'fa-shirt', nm:'Moda', chave:'moda'},
+  {ic:'fa-screwdriver-wrench', nm:'Serviços', chave:'servicos'}
+];
+
+const DISTRICTS = [
+  {nm:'Infulene', bairros:['Zona Verde','Ndlavela','Infulene D','T-3','Acordos de Lusaka','Vale do Infulene','Khongolote','Intaca','Muhalaze','1º de Maio']},
+  {nm:'Machava', bairros:['Infulene','Unidade A','Trevo','Patrice Lumumba','Machava Sede','São Damaso','Bunhiça','Tsalala','Km-15','Mathlemele']},
+  {nm:'Matola Sede', bairros:['Matola A','Matola B','Matola C','Matola D','Matola F','Matola G','Matola H','Fomento','Liberdade','Malhampsene','Tchumene']}
+];
+
+const CHAVE_STORAGE = 'mztalento_profs_db';
+
+function obterPerfis() {
+  try {
+    const d = localStorage.getItem(CHAVE_STORAGE);
+    return d ? JSON.parse(d) : [];
+  } catch(e) { return []; }
+}
+
+function guardarPerfis(lista) {
+  try { localStorage.setItem(CHAVE_STORAGE, JSON.stringify(lista)); } catch(e) {}
+}
+
+function ir(v){
+  document.getElementById('v-inicio').style.display = (v==='inicio')?'flex':'none';
+  document.getElementById('v-criar').style.display = (v==='criar')?'flex':'none';
+  document.getElementById('n-inicio').classList.toggle('sel', v==='inicio');
+  document.getElementById('n-criar').classList.toggle('sel', v==='criar');
+  if(v==='inicio') renderInicio();
+}
+
+function renderInicio(){
+  // Categorias
+  document.getElementById('gCats').innerHTML = CATEGORIAS.map(c=>
+    `<div class="cat" onclick="pesquisarCat('${c.nm}')">
+       <div class="ic"><i class="fa-solid ${c.ic}"></i></div>
+       <div class="nm">${c.nm}</div>
+     </div>`).join('');
+
+  // Lista de Profissionais
+  const profs = obterPerfis();
+  const zona = document.getElementById('fZona').value;
+  let filtrados = profs;
+  
+  if(zona) {
+    filtrados = filtrados.filter(p => p.zona === zona);
+  }
+
+  const container = document.getElementById('gProfs');
+  if(!filtrados.length) {
+    container.innerHTML = `<div style="text-align:center;color:#6B7280;font-size:12.5px;padding:26px 8px">
+      Ainda não há profissionais registados nesta área.<br>Toca em <b>“Criar perfil”</b> para ser o primeiro! 🙂</div>`;
+    return;
+  }
+
+  container.innerHTML = filtrados.map(p => `
+    <div class="prof">
+      <div class="foto" style="background:#0B5A8A"><i class="fa-solid fa-user"></i></div>
+      <div class="info">
+        <div class="nome">${p.nome} <span class="check">✓</span></div>
+        <div class="serv"><i class="fa-solid fa-screwdriver-wrench"></i> ${p.serv}</div>
+        <div class="meta"><i class="fa-solid fa-location-dot"></i> ${p.zona} · <i class="fa-solid fa-coins"></i> ${p.preco||'A combinar'}</div>
+      </div>
+      <a class="btn laranja" href="https://wa.me/258${p.tel}" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  `).join('');
+}
+
+function preencherZonas(){
+  const fz = document.getElementById('fZona'), cz = document.getElementById('cZona');
+  const ops = '<option value="">Todos os bairros da Matola</option>' +
+    DISTRICTS.map(d=>`<optgroup label="Posto ${d.nm}">${d.bairros.map(b=>`<option value="${b}">${b}</option>`).join('')}</optgroup>`).join('');
+  fz.innerHTML = ops;
+  cz.innerHTML = DISTRICTS.map(d=>`<optgroup label="Posto ${d.nm}">${d.bairros.map(b=>`<option value="${b}">${b}</option>`).join('')}</optgroup>`).join('');
+}
+
+function criarPerfil(){
+  const nome = document.getElementById('cNome').value.trim();
+  const serv = document.getElementById('cServ').value.trim();
+  const preco = document.getElementById('cPreco').value.trim();
+  const zona = document.getElementById('cZona').value;
+  const tel = document.getElementById('cTel').value.replace(/\D/g,'');
+
+  const msgDiv = document.getElementById('msgCriar');
+
+  if(!nome || !serv || !zona) {
+    msgDiv.innerHTML = '<div class="alerta erro">⚠️ Preenche o nome, o serviço e o bairro.</div>';
+    return;
+  }
+  if(tel.length !== 9) {
+    msgDiv.innerHTML = '<div class="alerta erro">⚠️ O contacto deve ter 9 dígitos (ex.: 841234567).</div>';
+    return;
+  }
+
+  const profs = obterPerfis();
+  profs.unshift({ id: Date.now(), nome, serv, preco, zona, tel });
+  guardarPerfis(profs);
+
+  msgDiv.innerHTML = '<div class="alerta ok">✓ Perfil criado com sucesso!</div>';
+  
+  // Limpar formulário
+  document.getElementById('cNome').value = '';
+  document.getElementById('cServ').value = '';
+  document.getElementById('cPreco').value = '';
+  document.getElementById('cTel').value = '';
+
+  setTimeout(() => { msgDiv.innerHTML = ''; ir('inicio'); }, 1200);
+}
+
+function pesquisar(){
+  const termo = document.getElementById('fBusca').value.toLowerCase().trim();
+  const profs = obterPerfis();
+  const container = document.getElementById('gProfs');
+
+  if(!termo) { renderInicio(); return; }
+
+  const resultado = profs.filter(p => 
+    p.nome.toLowerCase().includes(termo) || 
+    p.serv.toLowerCase().includes(termo) || 
+    p.zona.toLowerCase().includes(termo)
+  );
+
+  if(!resultado.length) {
+    container.innerHTML = `<div style="text-align:center;color:#6B7280;font-size:12.5px;padding:20px">Nenhum resultado encontrado para "${termo}".</div>`;
+    return;
+  }
+
+  container.innerHTML = resultado.map(p => `
+    <div class="prof">
+      <div class="foto" style="background:#0B5A8A"><i class="fa-solid fa-user"></i></div>
+      <div class="info">
+        <div class="nome">${p.nome} <span class="check">✓</span></div>
+        <div class="serv">${p.serv}</div>
+        <div class="meta">${p.zona} · ${p.preco||'A combinar'}</div>
+      </div>
+      <a class="btn laranja" href="https://wa.me/258${p.tel}" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  `).join('');
+}
+
+function pesquisarCat(nomeCat){
+  document.getElementById('fBusca').value = nomeCat;
+  pesquisar();
+}
+
+// Inicialização
+preencherZonas();
+renderInicio();
+</script>
+</body>
+  </html>
+  
